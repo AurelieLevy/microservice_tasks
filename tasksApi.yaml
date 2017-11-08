@@ -1,0 +1,105 @@
+swagger: '2.0'
+info:
+  version: 0.1.0
+  title: Simple vacation API
+  description: An API example to test swagger
+host: 192.168.99.100
+basePath: /api
+schemes:
+  - http
+paths:
+  /tasks:
+    get:
+      tags:
+        - task
+      summary: Get list of Tag
+      description: Presents the list of tasks
+      operationId: getTasks
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Information returned correctly
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Task'
+    post:
+      tags:
+        - task
+      summary: Creation of a new task
+      description: Creation of a new task
+      operationId: postTask
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: The task details
+          required: true
+          schema:
+            $ref: '#/definitions/NewTask'
+      responses:
+        '200':
+          description: Information returned correctly
+          schema:
+            $ref: '#/definitions/Task'
+        '403':
+          description: Error on creation of Task
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+definitions:
+  ErrorResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      error:
+        type: string
+  NewTask:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+  Task:
+    type: object
+    properties:
+      uid:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      execs:
+        type: array
+        items:
+          $ref: '#/definitions/Exec'
+  Exec:
+    type: object
+    properties:
+      uid:
+        type: string
+      steps:
+        type: array
+        items:
+          $ref: '#/definitions/Step'
+  Step:
+    type: object
+    properties:
+      uid:
+        type: string
+      name:
+        type: string
+      context:
+        type: string
+      status:
+        type: string
+        enum:
+          - Running
+          - Error
+          - Log
+          - Success
