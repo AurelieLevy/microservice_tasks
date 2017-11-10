@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 0.1.0
+  version: '0.1.0'
   title: Simple vacation API
   description: An API example to test swagger
 host: 192.168.99.100
@@ -8,12 +8,12 @@ basePath: /api
 schemes:
   - http
 paths:
-  /tasks:
+  '/tasks':
     get:
       tags:
         - task
-      summary: Get list of Tag
-      description: Presents the list of tasks
+      summary: Get list of Tasks
+      description: Presents the list of tasks existing in the system
       operationId: getTasks
       produces:
         - application/json
@@ -35,9 +35,9 @@ paths:
       consumes:
         - application/json
       parameters:
-        - in: body
-          name: body
-          description: The task details
+        - in: "body"
+          name: "body"
+          description: "The task details"
           required: true
           schema:
             $ref: '#/definitions/NewTask'
@@ -50,6 +50,100 @@ paths:
           description: Error on creation of Task
           schema:
             $ref: '#/definitions/ErrorResponse'
+            
+  '/tasks/{task_id}':
+    get:
+      tags:
+        - task
+      summary: Get a task
+      description: Get the task with the corresponding id
+      operationId: getTaskById
+      parameters:
+        - name: task_id
+          in: path
+          description: Task ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Information returned correctly
+          schema:
+            $ref: '#/definitions/Task'
+  '/executions/{exec_id}':
+    get:
+      tags:
+        - execution
+      summary: Get an execution
+      description: Get the execution with the corresponding id
+      operationId: getExecById
+      parameters:
+        - name: exec_id
+          in: path
+          description: Task ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Information returned correctly
+          schema:
+            $ref: '#/definitions/Task'
+  '/steps':
+    post:
+      tags:
+        - step
+      summary: Creation of a new step
+      description: Creation of a new step
+      operationId: postStep
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "The step details"
+          required: true
+          schema:
+            $ref: '#/definitions/NewStep'
+      responses:
+        '200':
+          description: Information returned correctly
+          schema:
+            $ref: '#/definitions/Step'
+        '403':
+          description: Error on creation of Step
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  '/steps/{step_id}':
+    get:
+      tags:
+        - step
+      summary: Get an execution
+      description: Get the execution with the corresponding id
+      operationId: getExecById
+      parameters:
+        - name: exec_id
+          in: path
+          description: Task ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Information returned correctly
+          schema:
+            $ref: '#/definitions/Task'
 definitions:
   ErrorResponse:
     type: object
@@ -68,7 +162,7 @@ definitions:
   Task:
     type: object
     properties:
-      uid:
+      task_id:
         type: string
       name:
         type: string
@@ -81,16 +175,16 @@ definitions:
   Exec:
     type: object
     properties:
-      uid:
+      exec_id:
         type: string
       steps:
         type: array
         items:
           $ref: '#/definitions/Step'
-  Step:
+  NewStep:
     type: object
     properties:
-      uid:
+      exec_id:
         type: string
       name:
         type: string
@@ -103,3 +197,22 @@ definitions:
           - Error
           - Log
           - Success
+  Step:
+    type: object
+    properties:
+      step_id:
+        type: string
+      name:
+        type: string
+      context:
+        type: string
+      status:
+        type: string
+        enum:
+          - Running
+          - Error
+          - Log
+          - Success
+        
+        
+        
