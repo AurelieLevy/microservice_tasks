@@ -59,13 +59,12 @@ paths:
       description: Get the task with the corresponding id
       operationId: getTaskById
       parameters:
-        - name: task_id
-          in: path
-          description: Task ID
-          required: true
-          schema:
-            type: integer
-            format: int64
+      - in: "path" 
+        name: "task_id"
+        description: "Task ID"
+        required: true
+        type: "integer"
+        format: "int64"
       produces:
         - application/json
       responses:
@@ -81,13 +80,12 @@ paths:
       description: Get the execution with the corresponding id
       operationId: getExecById
       parameters:
-        - name: exec_id
-          in: path
+        - in: "path"
+          name: exec_id
           description: Task ID
           required: true
-          schema:
-            type: integer
-            format: int64
+          type: integer
+          format: int64
       produces:
         - application/json
       responses:
@@ -128,15 +126,14 @@ paths:
         - step
       summary: Get an execution
       description: Get the execution with the corresponding id
-      operationId: getExecById
+      operationId: getStepById
       parameters:
-        - name: exec_id
-          in: path
+        - in: "path"
+          name: step_id
           description: Task ID
           required: true
-          schema:
-            type: integer
-            format: int64
+          type: integer
+          format: int64
       produces:
         - application/json
       responses:
@@ -213,6 +210,3 @@ definitions:
           - Error
           - Log
           - Success
-        
-        
-        
