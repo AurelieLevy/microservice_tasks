@@ -29,23 +29,43 @@ public class TasksApiController implements TasksApi {
 
     @Override
     public ResponseEntity<Task> getTaskById(Long taskId) {
-        Task task = new Task();
-        task.setTaskId("test");
-        task.setDescription("test pour la task");
-        task.setName("testeur");
-        task.setExecs(new ArrayList<Exec>());
 
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        if(taskId != 1){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            Task task = new Task();
+            task.setTaskId("test");
+            task.setDescription("test pour la task");
+            task.setName("testeur");
+            task.setExecs(new ArrayList<Exec>());
+
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        }
     }
 
     @Override
     public ResponseEntity<List<Task>> getTasks() {
-        return null;
+        ArrayList<Task> tasks = new ArrayList<Task>();
+
+        Task task = new Task();
+        task.setTaskId("UUID_1");
+        task.setName("testeur");
+        task.setDescription("Test pour la task");
+        task.setExecs(new ArrayList<Exec>());
+
+        Task task2 = new Task();
+        task2.setTaskId("UUID_TOTALLY_UNIQUE");
+        task2.setName("HelloWorld");
+        task2.setDescription("Task that makes Hello World around the world");
+        task2.setExecs(new ArrayList<Exec>());
+
+        tasks.add(task);
+        tasks.add(task2);
+        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Task> postTask(NewTask body) {
-        TaskRepository taskRepository = new TaskRepository();
-
+        return new ResponseEntity<Task>(HttpStatus.CREATED);
     }
 }
