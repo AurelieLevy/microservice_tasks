@@ -10,17 +10,15 @@ import java.io.Serializable;
  * Created by Olivier Liechti on 26/07/17.
  */
 @Entity
-public class FruitEntity implements Serializable {
+public class ExecEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
-    private String kind;
-    private String size;
-    private String colour;
+    private String name;
 
-    public long getId() {
+    /*public long getId() {
         return id;
     }
 
@@ -46,5 +44,5 @@ public class FruitEntity implements Serializable {
 
     public void setColour(String colour) {
         this.colour = colour;
-    }
+    }*/
 }
