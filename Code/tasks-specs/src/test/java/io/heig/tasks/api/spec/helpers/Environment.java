@@ -1,6 +1,6 @@
-package io.avalia.fruits.api.spec.helpers;
+package io.heig.tasks.api.spec.helpers;
 
-import io.avalia.fruits.api.DefaultApi;
+import io.heig.tasks.api.TaskApi;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -10,17 +10,17 @@ import java.util.Properties;
  */
 public class Environment {
 
-    private DefaultApi api = new DefaultApi();
+    private TaskApi api = new TaskApi();
 
     public Environment() throws IOException {
         Properties properties = new Properties();
         properties.load(this.getClass().getClassLoader().getResourceAsStream("environment.properties"));
-        String url = properties.getProperty("io.avalia.fruits.server.url");
+        String url = properties.getProperty("io.heig.tasks.server.url");
         api.getApiClient().setBasePath(url);
 
     }
 
-    public DefaultApi getApi() {
+    public TaskApi getApi() {
         return api;
     }
 
