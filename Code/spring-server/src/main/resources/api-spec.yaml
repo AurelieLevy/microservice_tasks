@@ -18,7 +18,7 @@ paths:
       produces:
         - application/json
       responses:
-        '202':
+        '200':
           description: Information returned correctly
           schema:
             type: array

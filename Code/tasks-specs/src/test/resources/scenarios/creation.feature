@@ -3,22 +3,40 @@ Feature: features for tasks
   Background:
     Given there is a Tasks server
 
+  Scenario: get a list of all existing tasks
+    When I GET the /tasks endpoint
+    Then I receive a 200 status code
+
   Scenario: create a valid task
     Given I have a valid task payload
-    When I POST it to the /task endpoint
+    When I POST to the /task endpoint
     Then I receive a 201 status code
 
   Scenario: failed to create a task
-    Given I have an invalid task payload
-    When I POST it to the /task endpoint
+    Given I have an invalid  type payload (not JSON)
+    When I POST to the /task endpoint
+    Then I receive a 406 status code
+
+  Scenario: failed to create a task
+    Given I have an JSON payload with incorrect parameters
+    When I POST to the /task endpoint
     Then I receive a 422 status code
 
-  Scenario: get a list of tasks existing
-    Given: I have nothing
-    When I GET it to the /task endpoint
-    Then I receive a 200 status code
+  Scenario: error on the server side during the task creation
+    Given I have a valid task payload
+    When I POST to the /task endpoint
+    Then I receive a 500 status code
+
 
   Scenario:get a precise task
     Given: I have a task id
-    When I GET it to the /tasks/{task_id} endpoint
+    When I GET to the /tasks/TASK_ID endpoint
     Then I receive a 200 status code
+
+  Scenario: failed to get a precise task
+    Given: I have an incorrect task id
+    When I GET to the /tasks/TASK_ID endpoint
+    Then I receive a 404 status code
+
+
+

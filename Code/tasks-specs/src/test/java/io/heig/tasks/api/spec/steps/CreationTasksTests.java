@@ -34,14 +34,8 @@ public class CreationTasksTests {
         throw new PendingException();
     }
 
-    @Given("^I have a task payload$")
-    public void i_have_a_task_payload() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
-
-    @When("^I POST it to the /task endpoint$")
-    public void i_POST_it_to_the_task_endpoint() throws Throwable {
+    @When("^I GET the /tasks endpoint$")
+    public void i_GET_the_tasks_endpoint() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
@@ -52,17 +46,34 @@ public class CreationTasksTests {
         throw new PendingException();
     }
 
-    @When("^I GET it to the /task endpoint$")
-    public void i_GET_it_to_the_task_endpoint() throws Throwable {
+    @Given("^I have a valid task payload$")
+    public void i_have_a_valid_task_payload() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
 
-    @When("^I GET it to the /tasks/{task_id} endpoint$")
-    public void i_GET_it_to_the_tasks_task_id_endpoint() throws Throwable {
+    @When("^I POST to the /task endpoint$")
+    public void i_POST_to_the_task_endpoint() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
 
+    @Given("^I have an invalid  type payload \\(not JSON\\)$")
+    public void i_have_an_invalid_type_payload_not_JSON() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @Given("^I have an JSON payload with incorrect parameters$")
+    public void i_have_an_JSON_payload_with_incorrect_parameters() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @When("^I GET to the /tasks/TASK_ID endpoint$")
+    public void i_GET_to_the_tasks_TASK_ID_endpoint() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
 
 }
