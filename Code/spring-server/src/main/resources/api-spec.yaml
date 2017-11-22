@@ -18,7 +18,7 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        '202':
           description: Information returned correctly
           schema:
             type: array
@@ -42,12 +42,20 @@ paths:
           schema:
             $ref: '#/definitions/NewTask'
       responses:
-        '200':
-          description: Information returned correctly
+        '201':
+          description: "Information returned correctly"
           schema:
             $ref: '#/definitions/Task'
-        '403':
-          description: Error on creation of Task
+        '406':
+          description: "Payload sent does not respect accept header"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '422':
+          description: "Json is incomplete or doesn't match the application's specification"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: "Error on creation of Task"
           schema:
             $ref: '#/definitions/ErrorResponse'
 
@@ -63,15 +71,51 @@ paths:
         name: "task_id"
         description: "Task ID"
         required: true
-        type: "integer"
-        format: "int64"
+        type: "string"
       produces:
         - application/json
       responses:
         '200':
-          description: Information returned correctly
+          description: "Information returned correctly"
           schema:
             $ref: '#/definitions/Task'
+        '404':
+          description: "Task wanted was not found"
+  '/executions':
+    post:
+      tags:
+        - execution
+      summary: Creation of a new execution
+      description: Creation of a new execution
+      operationId: postExecution
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "The execution details"
+          required: true
+          schema:
+            $ref: '#/definitions/NewExecution'
+      responses:
+        '201':
+          description: "Information returned correctly"
+          schema:
+            $ref: '#/definitions/Execution'
+        '406':
+          description: "Payload sent does not respect accept header"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '422':
+          description: "Json is incomplete or doesn't match the application's specification"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: "Error on creation of Execution"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
   '/executions/{exec_id}':
     get:
       tags:
@@ -84,15 +128,16 @@ paths:
           name: exec_id
           description: Task ID
           required: true
-          type: integer
-          format: int64
+          type: string
       produces:
         - application/json
       responses:
         '200':
           description: Information returned correctly
           schema:
-            $ref: '#/definitions/Task'
+            $ref: '#/definitions/Execution'
+        '404':
+          description: "Step wanted was not found"
   '/steps':
     post:
       tags:
@@ -112,12 +157,20 @@ paths:
           schema:
             $ref: '#/definitions/NewStep'
       responses:
-        '200':
-          description: Information returned correctly
+        '201':
+          description: "Information returned correctly"
           schema:
             $ref: '#/definitions/Step'
-        '403':
-          description: Error on creation of Step
+        '406':
+          description: "Payload sent does not respect accept header"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '422':
+          description: "Json is incomplete or doesn't match the application's specification"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: "Error on creation of Task"
           schema:
             $ref: '#/definitions/ErrorResponse'
   '/steps/{step_id}':
@@ -138,9 +191,11 @@ paths:
         - application/json
       responses:
         '200':
-          description: Information returned correctly
+          description: "Information returned correctly"
           schema:
-            $ref: '#/definitions/Task'
+            $ref: '#/definitions/Step'
+        '404':
+          description: "Step wanted was not found"
 definitions:
   ErrorResponse:
     type: object
@@ -156,10 +211,13 @@ definitions:
         type: string
       description:
         type: string
+    required: [name]
   Task:
     type: object
     properties:
       task_id:
+        type: string
+      self:
         type: string
       name:
         type: string
@@ -168,11 +226,22 @@ definitions:
       execs:
         type: array
         items:
-          $ref: '#/definitions/Exec'
-  Exec:
+          $ref: '#/definitions/Execution'
+  NewExecution:
+    type: object
+    properties:
+      task_id:
+        type: string
+      starting_date:
+        type: string
+        format: dateTime
+    required: [task_id]
+  Execution:
     type: object
     properties:
       exec_id:
+        type: string
+      self:
         type: string
       steps:
         type: array
@@ -194,6 +263,7 @@ definitions:
           - Error
           - Log
           - Success
+    required: [exec_id, name, status]
   Step:
     type: object
     properties:
