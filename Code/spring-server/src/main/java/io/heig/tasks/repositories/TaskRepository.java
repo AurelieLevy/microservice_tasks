@@ -1,11 +1,12 @@
 package io.heig.tasks.repositories;
 
 import io.heig.tasks.entities.TaskEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- * Created by Olivier Liechti on 26/07/17.
  */
-public interface TaskRepository extends CrudRepository<TaskEntity, Long>{
+@Repository
+public interface TaskRepository extends MongoRepository<TaskEntity, String>{
 
 }

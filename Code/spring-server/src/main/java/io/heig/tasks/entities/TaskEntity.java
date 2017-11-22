@@ -1,22 +1,17 @@
 package io.heig.tasks.entities;
 
-import io.heig.tasks.api.model.Exec;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by Olivier Liechti on 26/07/17.
  */
-@Entity
+@Document(collection = "tasks")
 public class TaskEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
