@@ -10,6 +10,9 @@ import io.heig.tasks.api.TaskApi;
 import io.heig.tasks.api.dto.Task;
 import io.heig.tasks.api.spec.helpers.Environment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
@@ -21,29 +24,49 @@ public class CreationTasksTests {
     private Environment environment;
     private TaskApi api;
 
+    private int count;
+
     Task task;
+    private List<Task> list= new ArrayList<Task>();
 
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
     private boolean lastApiCallThrewException;
     private int lastStatusCode;
 
+
+    public CreationTasksTests(Environment environment)
+    {
+        this.environment = environment;
+        this.api= environment.getApi();
+    }
+
     @Given("^there is a Tasks server$")
     public void there_is_a_Tasks_server() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        assertNotNull(api);
     }
 
     @When("^I GET the /tasks endpoint$")
     public void i_GET_the_tasks_endpoint() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        try {
+            lastApiResponse= api.getTasksWithHttpInfo();
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+
+
     }
 
     @Then("^I receive a (\\d+) status code$")
     public void i_receive_a_status_code(int arg1) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+
+        assertEquals(200, lastStatusCode);
     }
 
     @Given("^I have a valid task payload$")
