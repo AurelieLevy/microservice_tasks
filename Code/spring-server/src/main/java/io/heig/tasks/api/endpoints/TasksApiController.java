@@ -1,7 +1,7 @@
 package io.heig.tasks.api.endpoints;
 
 import io.heig.tasks.api.TasksApi;
-import io.heig.tasks.api.model.Exec;
+import io.heig.tasks.api.model.Execution;
 import io.heig.tasks.api.model.NewTask;
 import io.heig.tasks.api.model.Task;
 
@@ -28,16 +28,16 @@ public class TasksApiController implements TasksApi {
 
 
     @Override
-    public ResponseEntity<Task> getTaskById(Long taskId) {
-
-        if(taskId != 1){
+    public ResponseEntity<Task> getTaskById(String taskId)
+    {
+        if(taskId == "0"){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else{
             Task task = new Task();
             task.setTaskId("test");
             task.setDescription("test pour la task");
             task.setName("testeur");
-            task.setExecs(new ArrayList<Exec>());
+            task.setExecs(new ArrayList<Execution>());
 
             return new ResponseEntity<>(task, HttpStatus.OK);
         }
@@ -51,13 +51,13 @@ public class TasksApiController implements TasksApi {
         task.setTaskId("UUID_1");
         task.setName("testeur");
         task.setDescription("Test pour la task");
-        task.setExecs(new ArrayList<Exec>());
+        task.setExecs(new ArrayList<Execution>());
 
         Task task2 = new Task();
         task2.setTaskId("UUID_TOTALLY_UNIQUE");
         task2.setName("HelloWorld");
         task2.setDescription("Task that makes Hello World around the world");
-        task2.setExecs(new ArrayList<Exec>());
+        task2.setExecs(new ArrayList<Execution>());
 
         tasks.add(task);
         tasks.add(task2);

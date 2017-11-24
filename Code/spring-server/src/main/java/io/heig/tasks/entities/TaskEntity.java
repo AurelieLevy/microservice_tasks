@@ -1,6 +1,6 @@
 package io.heig.tasks.entities;
 
-import io.heig.tasks.api.model.Exec;
+import io.heig.tasks.api.model.Execution;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
