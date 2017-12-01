@@ -154,7 +154,15 @@ public class CreationTasksTests {
         wr.writeBytes(invalidPayload);
         wr.close();
 
-        assertEquals(200, wr);
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String response;
+        String reponseSrv = null;
+        while ((response = in.readLine()) != null){
+            reponseSrv += response;
+        }
+        in.close();
+        assertTrue(false);
+        lastStatusCode = Integer.parseInt(reponseSrv.substring(0, 3));
 
         /*try {
             lastApiResponse = api.postTaskWithHttpInfo(invalidPayload);
@@ -167,11 +175,6 @@ public class CreationTasksTests {
             lastApiException = e;
             lastStatusCode = lastApiException.getCode();
         }*/
-    }
-
-    @Then("^I receive a 406 status code$")
-    public void i_receive_a_406_status_code(int status) throws Throwable {
-        assertEquals(status, lastStatusCode);
     }
 
     @Given("^I have an JSON payload with incorrect parameters$")
