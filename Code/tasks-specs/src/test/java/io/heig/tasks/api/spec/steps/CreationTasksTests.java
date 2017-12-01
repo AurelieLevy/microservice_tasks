@@ -43,6 +43,7 @@ public class CreationTasksTests {
     private ApiException lastApiException;
     private boolean lastApiCallThrewException;
     private int lastStatusCode;
+    private String invalidPayload;
 
 
     public CreationTasksTests(Environment environment)
@@ -102,6 +103,8 @@ public class CreationTasksTests {
 
     @Given("^I have an invalid  type payload \\(not JSON\\)$")
     public void i_have_an_invalid_type_payload_not_JSON() throws Throwable {
+
+        invalidPayload = new String("invalidPayload");
         /*NewTask newTask = new NewTask();
         newTask.setName("fdsf");
         newTask.setDescription("lolilol");
@@ -110,7 +113,7 @@ public class CreationTasksTests {
         lastApiResponse = api.getTasksWithHttpInfo();
         assertEquals(406, lastApiResponse.getStatusCode());*/
 
-        URL url = new URL(api.getApiClient().getBasePath());
+        /*URL url = new URL(api.getApiClient().getBasePath());
         String badPayload = "aaaaaaaa";
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -132,9 +135,43 @@ public class CreationTasksTests {
             response.append(line);
         }
 
-        rd.close();
+        rd.close();*/
 
         //TODO
+    }
+
+    @When("^I POST the /tasks endpoint$")
+    public void i_POST_the_tasks_endpoint() throws Throwable {
+        URL url = new URL(api.getApiClient().getBasePath());
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+
+        connection.setRequestProperty("Content-length", String.valueOf((Integer)invalidPayload.getBytes().length));
+        connection.setDoOutput(true);
+
+        DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+        wr.writeBytes(invalidPayload);
+        wr.close();
+
+        assertEquals(200, wr);
+
+        /*try {
+            lastApiResponse = api.postTaskWithHttpInfo(invalidPayload);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }*/
+    }
+
+    @Then("^I receive a 406 status code$")
+    public void i_receive_a_406_status_code(int status) throws Throwable {
+        assertEquals(status, lastStatusCode);
     }
 
     @Given("^I have an JSON payload with incorrect parameters$")
