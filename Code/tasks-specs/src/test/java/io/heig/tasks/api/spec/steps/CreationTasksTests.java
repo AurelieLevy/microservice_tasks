@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import cucumber.api.PendingException;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -35,6 +36,7 @@ public class CreationTasksTests {
     private int count;
 
     Task task;
+    NewTask newTask;
     private List<Task> list= new ArrayList<Task>();
 
     private ApiResponse lastApiResponse;
@@ -72,21 +74,30 @@ public class CreationTasksTests {
     }
 
     @Then("^I receive a (\\d+) status code$")
-    public void i_receive_a_status_code(int arg1) throws Throwable {
-
-        assertEquals(200, lastStatusCode);
+    public void i_receive_a_status_code(int status) throws Throwable {
+        assertEquals(status, lastStatusCode);
     }
 
     @Given("^I have a valid task payload$")
     public void i_have_a_valid_task_payload() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        newTask = new io.heig.tasks.api.dto.NewTask();
+        newTask.setName("Task 1");
+        newTask.setDescription("description of task 1");
     }
 
     @When("^I POST to the /task endpoint$")
     public void i_POST_to_the_task_endpoint() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        try {
+            lastApiResponse = api.postTaskWithHttpInfo(newTask);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
     }
 
     @Given("^I have an invalid  type payload \\(not JSON\\)$")
@@ -124,13 +135,11 @@ public class CreationTasksTests {
         rd.close();
 
         //TODO
-
     }
 
     @Given("^I have an JSON payload with incorrect parameters$")
     public void i_have_an_JSON_payload_with_incorrect_parameters() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        newTask = new io.heig.tasks.api.dto.NewTask();
     }
 
     @When("^I GET to the /tasks/TASK_ID endpoint$")
