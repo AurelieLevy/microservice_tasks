@@ -4,20 +4,13 @@ import io.heig.tasks.api.TasksApi;
 import io.heig.tasks.api.model.Execution;
 import io.heig.tasks.api.model.NewTask;
 import io.heig.tasks.api.model.Task;
-
-import io.heig.tasks.entities.TaskEntity;
-import io.heig.tasks.repositories.TaskRepository;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +58,8 @@ public class TasksApiController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<Task> postTask(NewTask body) {
+    public ResponseEntity<Task> postTask(@ApiParam(value = "The task details" ,required=true ) @RequestBody @Valid NewTask body) {
         return new ResponseEntity<Task>(HttpStatus.CREATED);
     }
+
 }
