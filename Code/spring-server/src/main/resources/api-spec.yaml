@@ -46,7 +46,7 @@ paths:
           description: "Information returned correctly"
           schema:
             $ref: '#/definitions/Task'
-        '406':
+        '415':
           description: "Payload sent does not respect accept header"
           schema:
             $ref: '#/definitions/ErrorResponse'

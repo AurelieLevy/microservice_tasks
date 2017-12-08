@@ -131,5 +131,11 @@
       <version>${swagger-core-version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.github.tomakehurst</groupId>
+      <artifactId>wiremock</artifactId>
+      <version>2.12.0</version>
+    </dependency>
+
   </dependencies>
 </project>

@@ -1,7 +1,6 @@
 package io.heig.tasks.api.spec.steps;
 
 import cucumber.api.PendingException;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -11,12 +10,17 @@ import io.heig.tasks.api.TaskApi;
 import io.heig.tasks.api.dto.NewTask;
 import io.heig.tasks.api.dto.Task;
 import io.heig.tasks.api.spec.helpers.Environment;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Olivier Liechti on 27/07/17.
@@ -28,8 +32,12 @@ public class CreationTasksTests {
 
     private int count;
 
-    Task task;
-    NewTask newTask;
+    private CloseableHttpClient httpClient = HttpClients.createDefault();
+
+    private final String API_URL = "http://localhost:8080/api";
+    private Task task;
+    private NewTask newTask;
+    private Object invalidTask;
     private List<Task> list= new ArrayList<Task>();
 
     private ApiResponse lastApiResponse;
@@ -78,24 +86,41 @@ public class CreationTasksTests {
         newTask.setDescription("description of task 1");
     }
 
-    @When("^I POST to the /task endpoint$")
-    public void i_POST_to_the_task_endpoint() throws Throwable {
-        try {
-            lastApiResponse = api.postTaskWithHttpInfo(newTask);
+    @When("^I POST to the (/task) endpoint$")
+    public void i_POST_to_the_task_endpoint(String endpoint) throws Throwable {
+        if(invalidTask != null){
+            HttpPost request = new HttpPost(API_URL + endpoint + "s");
+            StringEntity value = new StringEntity("my String that is not good");
+            request.addHeader("content-type", "text/plain");
+            request.setEntity(value);
+            HttpResponse response = httpClient.execute(request);
+
+            lastApiResponse = null;
             lastApiCallThrewException = false;
             lastApiException = null;
-            lastStatusCode = lastApiResponse.getStatusCode();
-        } catch (ApiException e) {
-            lastApiCallThrewException = true;
-            lastApiResponse = null;
-            lastApiException = e;
-            lastStatusCode = lastApiException.getCode();
+            lastStatusCode = response.getStatusLine().getStatusCode();
+        } else
+        {
+            try
+            {
+                lastApiResponse = api.postTaskWithHttpInfo(newTask);
+                lastApiCallThrewException = false;
+                lastApiException = null;
+                lastStatusCode = lastApiResponse.getStatusCode();
+            }
+            catch (ApiException e)
+            {
+                lastApiCallThrewException = true;
+                lastApiResponse = null;
+                lastApiException = e;
+                lastStatusCode = lastApiException.getCode();
+            }
         }
     }
 
     @Given("^I have an invalid  type payload \\(not JSON\\)$")
     public void i_have_an_invalid_type_payload_not_JSON() throws Throwable {
-        throw new PendingException();
+        invalidTask = new Object();
     }
 
     @Given("^I have an JSON payload with incorrect parameters$")

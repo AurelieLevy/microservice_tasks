@@ -23,9 +23,6 @@ public class TasksApiController implements TasksApi {
     @Override
     public ResponseEntity<Task> getTaskById(String taskId)
     {
-        if(taskId == "0"){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else{
             Task task = new Task();
             task.setTaskId("test");
             task.setDescription("test pour la task");
@@ -33,7 +30,6 @@ public class TasksApiController implements TasksApi {
             task.setExecs(new ArrayList<Execution>());
 
             return new ResponseEntity<>(task, HttpStatus.OK);
-        }
     }
 
     @Override

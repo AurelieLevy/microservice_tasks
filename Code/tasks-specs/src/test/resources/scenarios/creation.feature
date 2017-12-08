@@ -15,7 +15,7 @@ Feature: features for tasks
   Scenario: failed to create a task
     Given I have an invalid  type payload (not JSON)
     When I POST to the /task endpoint
-    Then I receive a 406 status code
+    Then I receive a 415 status code
 
   Scenario: failed to create a task
     Given I have an JSON payload with incorrect parameters
