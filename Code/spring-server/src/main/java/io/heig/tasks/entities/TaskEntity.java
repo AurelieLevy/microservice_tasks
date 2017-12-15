@@ -1,29 +1,23 @@
 package io.heig.tasks.entities;
 
-import io.heig.tasks.api.model.Execution;
+import io.heig.tasks.api.model.Task;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
-/**
- * Created by Olivier Liechti on 26/07/17.
- */
-@Entity
+@Document(collection = "tasks")
 public class TaskEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
     private String name;
     private String description;
-    private ExecEntity[] exec;
+    private ArrayList<ExecEntity> exec;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
@@ -43,11 +37,19 @@ public class TaskEntity implements Serializable {
         this.description = description;
     }
 
-    public ExecEntity[] getExec() {
+    public ArrayList<ExecEntity> getExec() {
         return exec;
     }
 
-    public void setExec(ExecEntity[] exec) {
+    public void setExec(ArrayList<ExecEntity> exec) {
         this.exec = exec;
+    }
+
+    public Task getDTO(){
+        Task t = new Task();
+        t.setTaskId(getId());
+        t.setDescription(getDescription());
+        t.setName(getName());
+        return t;
     }
 }

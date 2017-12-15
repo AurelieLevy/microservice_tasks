@@ -1,16 +1,17 @@
 package io.heig.tasks.api.endpoints;
 
 import io.heig.tasks.api.TasksApi;
-import io.heig.tasks.api.model.Execution;
 import io.heig.tasks.api.model.NewTask;
 import io.heig.tasks.api.model.Task;
-import io.swagger.annotations.ApiParam;
+import io.heig.tasks.entities.TaskEntity;
+import io.heig.tasks.repositories.TaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +20,22 @@ import java.util.List;
 @Controller
 public class TasksApiController implements TasksApi {
 
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Override
-    public ResponseEntity<Task> getTaskById(String taskId)
-    {
+    public ResponseEntity<Task> getTaskById(@PathVariable("task_id")String taskId) {
+
+        if(taskId == null){
+            return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
+        }
+        Task t = taskRepository.findOne(taskId).getDTO();
+
+        // TODO: populate execution and set self path (preferably auto-generated)
+
+        /*if(taskId.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
             Task task = new Task();
             task.setTaskId("test");
             task.setDescription("test pour la task");
@@ -30,13 +43,19 @@ public class TasksApiController implements TasksApi {
             task.setExecs(new ArrayList<Execution>());
 
             return new ResponseEntity<>(task, HttpStatus.OK);
+        }*/
+        return new ResponseEntity<Task>(t, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<Task>> getTasks() {
-        ArrayList<Task> tasks = new ArrayList<Task>();
+        ArrayList<Task> tasks = new ArrayList<>();
 
-        Task task = new Task();
+        for(TaskEntity t : taskRepository.findAll()){
+            tasks.add(t.getDTO());
+        }
+
+        /*Task task = new Task();
         task.setTaskId("UUID_1");
         task.setName("testeur");
         task.setDescription("Test pour la task");
@@ -49,13 +68,16 @@ public class TasksApiController implements TasksApi {
         task2.setExecs(new ArrayList<Execution>());
 
         tasks.add(task);
-        tasks.add(task2);
+        tasks.add(task2);*/
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Task> postTask(@ApiParam(value = "The task details" ,required=true ) @RequestBody @Valid NewTask body) {
+    public ResponseEntity<Task> postTask(NewTask body) {
+        TaskEntity t = new TaskEntity();
+        t.setName(body.getName());
+        t.setDescription(body.getDescription());
+        taskRepository.insert(t);
         return new ResponseEntity<Task>(HttpStatus.CREATED);
     }
-
 }
