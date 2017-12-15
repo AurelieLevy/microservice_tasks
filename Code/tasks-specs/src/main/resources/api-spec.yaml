@@ -46,16 +46,12 @@ paths:
           description: "Information returned correctly"
           schema:
             $ref: '#/definitions/Task'
-        '406':
+        '415':
           description: "Payload sent does not respect accept header"
           schema:
             $ref: '#/definitions/ErrorResponse'
         '422':
           description: "Json is incomplete or doesn't match the application's specification"
-          schema:
-            $ref: '#/definitions/ErrorResponse'
-        '500':
-          description: "Error on creation of Task"
           schema:
             $ref: '#/definitions/ErrorResponse'
 

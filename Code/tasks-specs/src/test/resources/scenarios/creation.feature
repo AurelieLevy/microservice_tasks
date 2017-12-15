@@ -22,12 +22,6 @@ Feature: features for tasks
     When I POST to the /task endpoint
     Then I receive a 422 status code
 
-  Scenario: error on the server side during the task creation
-    Given I have a valid task payload
-    When I POST to the /task endpoint
-    Then I receive a 500 status code
-
-
   Scenario:get a precise task
     Given: I have a task id
     When I GET to the /tasks/TASK_ID endpoint

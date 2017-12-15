@@ -54,11 +54,6 @@ paths:
           description: "Json is incomplete or doesn't match the application's specification"
           schema:
             $ref: '#/definitions/ErrorResponse'
-        '500':
-          description: "Error on creation of Task"
-          schema:
-            $ref: '#/definitions/ErrorResponse'
-
   '/tasks/{task_id}':
     get:
       tags:
