@@ -1,0 +1,278 @@
+swagger: '2.0'
+info:
+  version: '0.1.0'
+  title: Simple tasks API
+  description: An API example to test swagger
+host: 192.168.99.100
+basePath: /api
+schemes:
+  - http
+paths:
+  '/tasks':
+    get:
+      tags:
+        - task
+      summary: Get list of Tasks
+      description: Presents the list of tasks existing in the system
+      operationId: getTasks
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Information returned correctly
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Task'
+    post:
+      tags:
+        - task
+      summary: Creation of a new task
+      description: Creation of a new task
+      operationId: postTask
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "The task details"
+          required: true
+          schema:
+            $ref: '#/definitions/NewTask'
+      responses:
+        '201':
+          description: "Information returned correctly"
+          schema:
+            $ref: '#/definitions/Task'
+        '415':
+          description: "Payload sent does not respect accept header"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '422':
+          description: "Json is incomplete or doesn't match the application's specification"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  '/tasks/{task_id}':
+    get:
+      tags:
+        - task
+      summary: Get a task
+      description: Get the task with the corresponding id
+      operationId: getTaskById
+      parameters:
+      - in: "path"
+        name: "task_id"
+        description: "Task ID"
+        required: true
+        type: "string"
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: "Information returned correctly"
+          schema:
+            $ref: '#/definitions/Task'
+        '404':
+          description: "Task wanted was not found"
+  '/executions':
+    post:
+      tags:
+        - execution
+      summary: Creation of a new execution
+      description: Creation of a new execution
+      operationId: postExecution
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "The execution details"
+          required: true
+          schema:
+            $ref: '#/definitions/NewExecution'
+      responses:
+        '201':
+          description: "Information returned correctly"
+          schema:
+            $ref: '#/definitions/Execution'
+        '406':
+          description: "Payload sent does not respect accept header"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '422':
+          description: "Json is incomplete or doesn't match the application's specification"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: "Error on creation of Execution"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  '/executions/{exec_id}':
+    get:
+      tags:
+        - execution
+      summary: Get an execution
+      description: Get the execution with the corresponding id
+      operationId: getExecById
+      parameters:
+        - in: "path"
+          name: exec_id
+          description: Task ID
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Information returned correctly
+          schema:
+            $ref: '#/definitions/Execution'
+        '404':
+          description: "Step wanted was not found"
+  '/steps':
+    post:
+      tags:
+        - step
+      summary: Creation of a new step
+      description: Creation of a new step
+      operationId: postStep
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "The step details"
+          required: true
+          schema:
+            $ref: '#/definitions/NewStep'
+      responses:
+        '201':
+          description: "Information returned correctly"
+          schema:
+            $ref: '#/definitions/Step'
+        '406':
+          description: "Payload sent does not respect accept header"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '422':
+          description: "Json is incomplete or doesn't match the application's specification"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: "Error on creation of Task"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  '/steps/{step_id}':
+    get:
+      tags:
+        - step
+      summary: Get an execution
+      description: Get the execution with the corresponding id
+      operationId: getStepById
+      parameters:
+        - in: "path"
+          name: step_id
+          description: Task ID
+          required: true
+          type: integer
+          format: int64
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: "Information returned correctly"
+          schema:
+            $ref: '#/definitions/Step'
+        '404':
+          description: "Step wanted was not found"
+definitions:
+  ErrorResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      error:
+        type: string
+  NewTask:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+    required: [name]
+  Task:
+    type: object
+    properties:
+      task_id:
+        type: string
+      self:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      execs:
+        type: array
+        items:
+          $ref: '#/definitions/Execution'
+  NewExecution:
+    type: object
+    properties:
+      task_id:
+        type: string
+      starting_date:
+        type: string
+        format: dateTime
+    required: [task_id]
+  Execution:
+    type: object
+    properties:
+      exec_id:
+        type: string
+      self:
+        type: string
+      steps:
+        type: array
+        items:
+          $ref: '#/definitions/Step'
+  NewStep:
+    type: object
+    properties:
+      exec_id:
+        type: string
+      name:
+        type: string
+      context:
+        type: string
+      status:
+        type: string
+        enum:
+          - Running
+          - Error
+          - Log
+          - Success
+    required: [exec_id, name, status]
+  Step:
+    type: object
+    properties:
+      step_id:
+        type: string
+      name:
+        type: string
+      context:
+        type: string
+      status:
+        type: string
+        enum:
+          - Running
+          - Error
+          - Log
+          - Success
