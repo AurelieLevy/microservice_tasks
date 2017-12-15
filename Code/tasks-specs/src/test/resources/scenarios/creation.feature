@@ -23,12 +23,12 @@ Feature: features for tasks
     Then I receive a 422 status code
 
   Scenario:get a precise task
-    Given: I have a task id
+    Given I have a task id
     When I GET to the /tasks/TASK_ID endpoint
     Then I receive a 200 status code
 
   Scenario: failed to get a precise task
-    Given: I have an incorrect task id
+    Given I have an incorrect task id
     When I GET to the /tasks/TASK_ID endpoint
     Then I receive a 404 status code
 

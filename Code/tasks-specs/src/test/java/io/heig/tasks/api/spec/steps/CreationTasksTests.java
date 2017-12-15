@@ -1,6 +1,5 @@
 package io.heig.tasks.api.spec.steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -37,6 +36,7 @@ public class CreationTasksTests {
     private final String API_URL = "http://localhost:8080/api";
     private Task task;
     private NewTask newTask;
+    private String idTask;
     private Object invalidTask;
     private List<Task> list= new ArrayList<Task>();
 
@@ -128,10 +128,30 @@ public class CreationTasksTests {
         newTask = new io.heig.tasks.api.dto.NewTask();
     }
 
+    @Given("^I have a task id$")
+    public void i_have_a_task_id() throws Throwable {
+        idTask="9999999";
+    }
+
+    @Given("^I have an incorrect task id$")
+    public void i_have_an_incorrect_task_id() throws Throwable {
+        idTask="9999999";
+    }
+
     @When("^I GET to the /tasks/TASK_ID endpoint$")
     public void i_GET_to_the_tasks_TASK_ID_endpoint() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        try {
+            lastApiResponse= api.getTaskByIdWithHttpInfo(idTask);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
     }
 
 }
