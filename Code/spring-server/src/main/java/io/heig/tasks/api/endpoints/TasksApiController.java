@@ -5,13 +5,15 @@ import io.heig.tasks.api.model.NewTask;
 import io.heig.tasks.api.model.Task;
 import io.heig.tasks.entities.TaskEntity;
 import io.heig.tasks.repositories.TaskRepository;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,14 @@ public class TasksApiController implements TasksApi {
         if(taskId == null){
             return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
         }
-        Task t = taskRepository.findOne(taskId).getDTO();
+
+        TaskEntity taskEntity = taskRepository.findOne(taskId);
+        if(taskEntity == null){
+            return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
+        }
+        else{
+            return new ResponseEntity<Task>(taskEntity.getDTO(), HttpStatus.OK);
+        }
 
         // TODO: populate execution and set self path (preferably auto-generated)
 
@@ -44,7 +53,7 @@ public class TasksApiController implements TasksApi {
 
             return new ResponseEntity<>(task, HttpStatus.OK);
         }*/
-        return new ResponseEntity<Task>(t, HttpStatus.OK);
+
     }
 
     @Override
@@ -73,7 +82,7 @@ public class TasksApiController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<Task> postTask(NewTask body) {
+    public ResponseEntity<Task> postTask(@ApiParam(value = "The task details" ,required=true ) @RequestBody @Valid NewTask body) {
         TaskEntity t = new TaskEntity();
         t.setName(body.getName());
         t.setDescription(body.getDescription());

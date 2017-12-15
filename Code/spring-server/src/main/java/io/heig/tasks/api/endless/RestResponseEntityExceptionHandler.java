@@ -9,7 +9,6 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -19,13 +18,14 @@ import java.util.List;
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler
 {
+    /*
     @ExceptionHandler({ Exception.class })
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
         ApiError apiError = new ApiError(
                 HttpStatus.I_AM_A_TEAPOT, ex.getLocalizedMessage(), "error occurred");
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
-
+    */
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request)
     {
