@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
-  version: '0.1.0'
-  title: Simple vacation API
+  version: '0.1.2'
+  title: Simple tasks API
   description: An API example to test swagger
 host: 192.168.99.100
 basePath: /api
@@ -42,15 +42,18 @@ paths:
           schema:
             $ref: '#/definitions/NewTask'
       responses:
-        '200':
-          description: Information returned correctly
+        '201':
+          description: "Information returned correctly"
           schema:
             $ref: '#/definitions/Task'
-        '403':
-          description: Error on creation of Task
+        '415':
+          description: "Payload sent does not respect accept header"
           schema:
             $ref: '#/definitions/ErrorResponse'
-            
+        '422':
+          description: "Json is incomplete or doesn't match the application's specification"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
   '/tasks/{task_id}':
     get:
       tags:
@@ -59,40 +62,73 @@ paths:
       description: Get the task with the corresponding id
       operationId: getTaskById
       parameters:
-      - in: "path" 
+      - in: "path"
         name: "task_id"
         description: "Task ID"
         required: true
-        type: "integer"
-        format: "int64"
+        type: "string"
       produces:
         - application/json
       responses:
         '200':
-          description: Information returned correctly
+          description: "Information returned correctly"
           schema:
             $ref: '#/definitions/Task'
-  '/executions/{exec_id}':
+        '404':
+          description: "Task wanted was not found"
+  '/executions':
+    post:
+      tags:
+        - execution
+      summary: Creation of a new execution
+      description: Creation of a new execution
+      operationId: postExecution
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "The execution details"
+          required: true
+          schema:
+            $ref: '#/definitions/NewExecution'
+      responses:
+        '201':
+          description: "Information returned correctly"
+          schema:
+            $ref: '#/definitions/Execution'
+        '415':
+          description: "Payload sent does not respect accept header"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '422':
+          description: "Json is incomplete or doesn't match the application's specification"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  '/executions/{execution_id}':
     get:
       tags:
         - execution
       summary: Get an execution
       description: Get the execution with the corresponding id
-      operationId: getExecById
+      operationId: getExecutionById
       parameters:
         - in: "path"
-          name: exec_id
+          name: execution_id
           description: Task ID
           required: true
-          type: integer
-          format: int64
+          type: string
       produces:
         - application/json
       responses:
         '200':
           description: Information returned correctly
           schema:
-            $ref: '#/definitions/Task'
+            $ref: '#/definitions/Execution'
+        '404':
+          description: "Step wanted was not found"
   '/steps':
     post:
       tags:
@@ -112,12 +148,16 @@ paths:
           schema:
             $ref: '#/definitions/NewStep'
       responses:
-        '200':
-          description: Information returned correctly
+        '201':
+          description: "Information returned correctly"
           schema:
             $ref: '#/definitions/Step'
-        '403':
-          description: Error on creation of Step
+        '415':
+          description: "Payload sent does not respect accept header"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '422':
+          description: "Json is incomplete or doesn't match the application's specification"
           schema:
             $ref: '#/definitions/ErrorResponse'
   '/steps/{step_id}':
@@ -132,15 +172,16 @@ paths:
           name: step_id
           description: Task ID
           required: true
-          type: integer
-          format: int64
+          type: string
       produces:
         - application/json
       responses:
         '200':
-          description: Information returned correctly
+          description: "Information returned correctly"
           schema:
-            $ref: '#/definitions/Task'
+            $ref: '#/definitions/Step'
+        '404':
+          description: "Step wanted was not found"
 definitions:
   ErrorResponse:
     type: object
@@ -156,57 +197,89 @@ definitions:
         type: string
       description:
         type: string
+    required: [name]
   Task:
     type: object
     properties:
       task_id:
         type: string
+      self:
+        type: string
       name:
         type: string
       description:
         type: string
-      execs:
+      creationDate:
+        type: integer
+        format: int64
+      executions:
         type: array
         items:
-          $ref: '#/definitions/Exec'
-  Exec:
+          $ref: '#/definitions/Execution'
+  NewExecution:
     type: object
     properties:
-      exec_id:
+      task_id:
         type: string
+      starting_date:
+        type: string
+        format: dateTime
+      name:
+        type: string
+    required: [task_id]
+  Execution:
+    type: object
+    properties:
+      execution_id:
+        type: string
+      self:
+        type: string
+      name:
+        type: string
+      creationDate:
+        type: integer
+        format: int64
       steps:
         type: array
+
         items:
           $ref: '#/definitions/Step'
+  StepAbstract:
+    type: object
+    discriminator: stepType
+    properties:
+      stepType:
+        type: string
+      name:
+        type: string
+      context:
+        type: string
+      status:
+        type: string
+        enum:
+          - Running
+          - Error
+          - Log
+          - Success
+    required:
+      - stepType
   NewStep:
     type: object
-    properties:
-      exec_id:
-        type: string
-      name:
-        type: string
-      context:
-        type: string
-      status:
-        type: string
-        enum:
-          - Running
-          - Error
-          - Log
-          - Success
+    allOf:
+    - $ref: '#/definitions/StepAbstract'
+    - type: object
+      properties:
+        execution_id:
+          type: string
+    required: [execution_id, name, status]
   Step:
     type: object
-    properties:
-      step_id:
-        type: string
-      name:
-        type: string
-      context:
-        type: string
-      status:
-        type: string
-        enum:
-          - Running
-          - Error
-          - Log
-          - Success
+    allOf:
+    - $ref: '#/definitions/StepAbstract'
+    - type: object
+      properties:
+        step_id:
+          type: string
+        creationDate:
+          type: integer
+          format: int64
