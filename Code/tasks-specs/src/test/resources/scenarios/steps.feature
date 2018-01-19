@@ -15,7 +15,7 @@ Feature: features for step
 
 
   Scenario: failed to create a step
-    Given I have an JSON payload with incorrect parameters
+    Given I have an JSON step payload with incorrect parameters
     When I POST to the /step endpoint
     Then I receive a 422 status code
 

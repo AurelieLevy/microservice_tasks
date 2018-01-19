@@ -55,13 +55,10 @@ public class StepsTests {
         newStep.setContext("Context of the step 1");
     }
 
-    @Given("^I have an invalid  type payload \\(not JSON\\)$")
-    public void i_have_an_invalid_type_payload_not_JSON() throws Throwable {
-        invalidStep = new Object();
-    }
 
-    @Given("^I have an JSON payload with incorrect parameters$")
-    public void i_have_an_JSON_payload_with_incorrect_parameters() throws Throwable {
+
+    @Given("^I have an JSON step payload with incorrect parameters$")
+    public void i_have_an_JSON_step_payload_with_incorrect_parameters() throws Throwable {
         newStep = new io.heig.tasks.api.dto.NewStep();
     }
 
