@@ -107,7 +107,7 @@ paths:
           description: "Json is incomplete or doesn't match the application's specification"
           schema:
             $ref: '#/definitions/ErrorResponse'
-  '/executions/{exec_id}':
+  '/executions/{execution_id}':
     get:
       tags:
         - execution
@@ -244,10 +244,11 @@ definitions:
 
         items:
           $ref: '#/definitions/Step'
-  NewStep:
+  StepAbstract:
     type: object
+    discriminator: stepType
     properties:
-      execution_id:
+      stepType:
         type: string
       name:
         type: string
@@ -260,23 +261,25 @@ definitions:
           - Error
           - Log
           - Success
+    required:
+      - stepType
+  NewStep:
+    type: object
+    allOf:
+    - $ref: '#/definitions/StepAbstract'
+    - type: object
+      properties:
+        execution_id:
+          type: string
     required: [execution_id, name, status]
   Step:
     type: object
-    properties:
-      step_id:
-        type: string
-      name:
-        type: string
-      context:
-        type: string
-      creationDate:
-        type: integer
-        format: int64
-      status:
-        type: string
-        enum:
-          - Running
-          - Error
-          - Log
-          - Success
+    allOf:
+    - $ref: '#/definitions/StepAbstract'
+    - type: object
+      properties:
+        step_id:
+          type: string
+        creationDate:
+          type: integer
+          format: int64
