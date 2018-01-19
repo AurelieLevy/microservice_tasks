@@ -41,19 +41,6 @@ public class TasksApiController implements TasksApi {
         }
 
         // TODO: populate execution and set self path (preferably auto-generated)
-
-        /*if(taskId.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else{
-            Task task = new Task();
-            task.setTaskId("test");
-            task.setDescription("test pour la task");
-            task.setName("testeur");
-            task.setExecs(new ArrayList<Execution>());
-
-            return new ResponseEntity<>(task, HttpStatus.OK);
-        }*/
-
     }
 
     @Override
@@ -64,20 +51,6 @@ public class TasksApiController implements TasksApi {
             tasks.add(t.getDTO());
         }
 
-        /*Task task = new Task();
-        task.setTaskId("UUID_1");
-        task.setName("testeur");
-        task.setDescription("Test pour la task");
-        task.setExecs(new ArrayList<Execution>());
-
-        Task task2 = new Task();
-        task2.setTaskId("UUID_TOTALLY_UNIQUE");
-        task2.setName("HelloWorld");
-        task2.setDescription("Task that makes Hello World around the world");
-        task2.setExecs(new ArrayList<Execution>());
-
-        tasks.add(task);
-        tasks.add(task2);*/
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
 
@@ -86,6 +59,7 @@ public class TasksApiController implements TasksApi {
         TaskEntity t = new TaskEntity();
         t.setName(body.getName());
         t.setDescription(body.getDescription());
+        t.setCreationDate(System.currentTimeMillis());
         t = taskRepository.insert(t);
         return new ResponseEntity<Task>(t.getDTO(), HttpStatus.CREATED);
     }

@@ -13,9 +13,18 @@ public class TaskEntity implements Serializable {
     @Id
     private String id;
 
+    private long creationDate;
     private String name;
     private String description;
     private ArrayList<ExecEntity> exec;
+
+    public long getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(long creationDate) {
+        this.creationDate = creationDate;
+    }
 
     public String getId() {
         return id;
@@ -50,6 +59,7 @@ public class TaskEntity implements Serializable {
         t.setTaskId(getId());
         t.setDescription(getDescription());
         t.setName(getName());
+        t.setCreationDate(getCreationDate());
         return t;
     }
 }
