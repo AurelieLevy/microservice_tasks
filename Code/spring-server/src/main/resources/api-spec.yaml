@@ -113,10 +113,10 @@ paths:
         - execution
       summary: Get an execution
       description: Get the execution with the corresponding id
-      operationId: getExecById
+      operationId: getExecutionById
       parameters:
         - in: "path"
-          name: exec_id
+          name: execution_id
           description: Task ID
           required: true
           type: string
@@ -212,7 +212,7 @@ definitions:
       creationDate:
         type: integer
         format: int64
-      execs:
+      executions:
         type: array
         items:
           $ref: '#/definitions/Execution'
@@ -222,15 +222,19 @@ definitions:
       task_id:
         type: string
       starting_date:
+        type: integer
+        format: int64
+      name:
         type: string
-        format: dateTime
     required: [task_id]
   Execution:
     type: object
     properties:
-      exec_id:
+      execution_id:
         type: string
       self:
+        type: string
+      name:
         type: string
       creationDate:
         type: integer
@@ -243,7 +247,7 @@ definitions:
   NewStep:
     type: object
     properties:
-      exec_id:
+      execution_id:
         type: string
       name:
         type: string
@@ -256,7 +260,7 @@ definitions:
           - Error
           - Log
           - Success
-    required: [exec_id, name, status]
+    required: [execution_id, name, status]
   Step:
     type: object
     properties:

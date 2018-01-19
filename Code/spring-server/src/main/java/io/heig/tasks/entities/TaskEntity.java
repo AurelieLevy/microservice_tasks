@@ -16,7 +16,7 @@ public class TaskEntity implements Serializable {
     private long creationDate;
     private String name;
     private String description;
-    private ArrayList<ExecEntity> exec;
+    private ArrayList<ExecutionEntity> execution;
 
     public long getCreationDate() {
         return creationDate;
@@ -46,12 +46,14 @@ public class TaskEntity implements Serializable {
         this.description = description;
     }
 
-    public ArrayList<ExecEntity> getExec() {
-        return exec;
+    public ArrayList<ExecutionEntity> getExecution()
+    {
+        return execution;
     }
 
-    public void setExec(ArrayList<ExecEntity> exec) {
-        this.exec = exec;
+    public void setExecution(ArrayList<ExecutionEntity> execution)
+    {
+        this.execution = execution;
     }
 
     public Task getDTO(){
