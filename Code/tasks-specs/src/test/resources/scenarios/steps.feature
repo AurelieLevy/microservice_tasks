@@ -1,7 +1,7 @@
 Feature: features for step
 
   Background:
-  Given there is an existing Task and an existing Exec objects
+    Given there is a Tasks server with an existing Task and an existing Exec
 
   Scenario: create a valid step
     Given I have a valid step payload

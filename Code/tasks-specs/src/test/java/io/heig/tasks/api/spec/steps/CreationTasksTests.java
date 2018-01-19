@@ -49,7 +49,7 @@ public class CreationTasksTests {
     public CreationTasksTests(Environment environment)
     {
         this.environment = environment;
-        this.api= environment.getApi();
+        this.api= environment.getTaskApi();
     }
 
     @Given("^there is a Tasks server$")
