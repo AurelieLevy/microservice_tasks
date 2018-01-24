@@ -1,6 +1,7 @@
 package io.heig.tasks.entities;
 
 import io.heig.tasks.api.model.Execution;
+import io.heig.tasks.api.model.Step;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -72,10 +73,18 @@ public class ExecutionEntity implements Serializable {
         e.setExecutionId(getId());
         e.setName(getName());
         e.setCreationDate(getCreationDate());
-        e.setSteps(getSteps()
-        .stream()
-        .map(StepEntity::getDTO)
-        .collect(Collectors.toList()));
+        ArrayList<Step> steps=  new ArrayList<>();
+        if(getSteps()!=null)
+        {
+            e.setSteps(getSteps()
+                    .stream()
+                    .map(StepEntity::getDTO)
+                    .collect(Collectors.toList()));
+        }
+        else
+        {
+            e.setSteps(steps);
+        }
         return e;
     }
 

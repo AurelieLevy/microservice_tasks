@@ -73,7 +73,7 @@ public class ExecutionApiController implements ExecutionsApi {
         executions.add(e);
         taskEntity.setExecutions(executions);
 
-        taskEntity = taskRepository.save(taskEntity);
+        taskRepository.save(taskEntity);
         return new ResponseEntity<Execution>(e.getDTO(), HttpStatus.CREATED);
     }
 }

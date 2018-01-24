@@ -63,9 +63,7 @@ public class StepsApiController implements StepsApi{
         steps.add(s);
         executionEntity.setSteps(steps);
 
-        executionEntity = ExecutionRepository.save(executionEntity);
-
-
+        ExecutionRepository.save(executionEntity);
         return new ResponseEntity<Step>(s.getDTO(), HttpStatus.CREATED);
     }
 }
