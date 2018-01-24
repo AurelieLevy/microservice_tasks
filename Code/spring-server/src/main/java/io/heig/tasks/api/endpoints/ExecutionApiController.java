@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-07-26T19:36:34.802Z")
@@ -27,7 +29,8 @@ public class ExecutionApiController implements ExecutionsApi {
 
     @Autowired
     private ExecutionRepository ExecutionRepository;
-    private TaskRepository taskRepository ;
+    @Autowired
+    private TaskRepository taskRepository;
 
 
     @Override
@@ -55,8 +58,29 @@ public class ExecutionApiController implements ExecutionsApi {
         e.setCreationDate(System.currentTimeMillis());
         e.setName(body.getName());
         e = ExecutionRepository.insert(e);
+        if(taskRepository==null)
+        {
+            System.out.println("Error");
+        }
+        else
+        {
+            System.out.println(body.getTaskId());
+        }
         TaskEntity taskEntity =  taskRepository.findOne(body.getTaskId());
-        taskEntity.getExecution().add(e);
+
+        ArrayList<ExecutionEntity> executions;
+        if( taskEntity.getExecutions()==null)
+        {
+            executions = new ArrayList<>();
+        }
+        else
+        {
+            executions =taskEntity.getExecutions();
+        }
+
+        executions.add(e);
+        taskEntity.setExecutions(executions);
+
         taskEntity = taskRepository.save(taskEntity);
         return new ResponseEntity<Execution>(e.getDTO(), HttpStatus.CREATED);
     }
