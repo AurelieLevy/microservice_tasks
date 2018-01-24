@@ -58,14 +58,6 @@ public class ExecutionApiController implements ExecutionsApi {
         e.setCreationDate(System.currentTimeMillis());
         e.setName(body.getName());
         e = ExecutionRepository.insert(e);
-        if(taskRepository==null)
-        {
-            System.out.println("Error");
-        }
-        else
-        {
-            System.out.println(body.getTaskId());
-        }
         TaskEntity taskEntity =  taskRepository.findOne(body.getTaskId());
 
         ArrayList<ExecutionEntity> executions;
