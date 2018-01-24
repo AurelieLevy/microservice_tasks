@@ -1,7 +1,6 @@
 package io.heig.tasks.entities;
 
 import io.heig.tasks.api.model.Execution;
-import io.heig.tasks.api.model.Step;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Olivier Liechti on 26/07/17.
@@ -73,7 +72,10 @@ public class ExecutionEntity implements Serializable {
         e.setExecutionId(getId());
         e.setName(getName());
         e.setCreationDate(getCreationDate());
-        e.setSteps(getSteps());
+        e.setSteps(getSteps()
+        .stream()
+        .map(StepEntity::getDTO)
+        .collect(Collectors.toList()));
         return e;
     }
 
