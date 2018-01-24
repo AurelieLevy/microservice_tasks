@@ -25,7 +25,7 @@ public class ExecutionEntity implements Serializable {
 
     private long creationDate;
 
-    private ArrayList<Step> steps = new ArrayList<>();
+    private ArrayList<StepEntity> steps = new ArrayList<>();
 
     public String getId()
     {
@@ -58,12 +58,12 @@ public class ExecutionEntity implements Serializable {
     }
 
 
-    public List<Step> getSteps()
+    public ArrayList<StepEntity> getSteps()
     {
         return steps;
     }
 
-    public void setSteps(ArrayList<Step> steps)
+    public void setSteps(ArrayList<StepEntity> steps)
     {
         this.steps = steps;
     }
