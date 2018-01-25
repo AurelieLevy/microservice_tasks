@@ -46,8 +46,8 @@ public class StepsTests {
 
     }
 
-    @Given("^there is a Tasks server with an existing Task and an existing Exec$")
-    public void there_is_a_Tasks_server_with_an_existing_Task_and_an_existing_Exec() throws Throwable{
+    @Given("^there is a Tasks server with an existing Task and an existing Exec and a step$")
+    public void there_is_a_Tasks_server_with_an_existing_Task_and_an_existing_Exec_and_a_step() throws Throwable{
         assertNotNull(api);
     }
 

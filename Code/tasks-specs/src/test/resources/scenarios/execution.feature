@@ -1,7 +1,7 @@
 Feature: features for executions
 
   Background:
-    Given there is a Tasks server
+    Given there is a Tasks server with an existing Task and an existing Exec
 
   Scenario:get a precise execution
     Given I have a execution id
