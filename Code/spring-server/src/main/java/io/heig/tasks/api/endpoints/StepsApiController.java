@@ -23,7 +23,7 @@ public class StepsApiController implements StepsApi{
     @Autowired
     private StepRepository stepRepository;
     @Autowired
-    private ExecutionRepository ExecutionRepository;
+    private ExecutionRepository executionRepository;
 
     @Override
     public ResponseEntity<Step> getStepById(@PathVariable("step_id") String stepId) {
@@ -48,8 +48,15 @@ public class StepsApiController implements StepsApi{
         s.setName(body.getName());
         s = stepRepository.insert(s);
 
-        ExecutionEntity executionEntity = ExecutionRepository.findOne(body.getExecutionId());
-
+        ExecutionEntity executionEntity;
+        if(executionRepository != null)
+        {
+            executionEntity = executionRepository.findOne(body.getExecutionId());
+        }
+        else
+        {
+            return new ResponseEntity<Step>(s.getDTO(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         if(executionEntity != null)
         {
             ArrayList<StepEntity> steps;
