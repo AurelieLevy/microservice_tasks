@@ -70,7 +70,7 @@ public class StepsApiController implements StepsApi{
         }
         else
         {
-            return new ResponseEntity<Step>(s.getDTO(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Step>(s.getDTO(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 }

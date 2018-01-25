@@ -80,7 +80,7 @@ public class ExecutionApiController implements ExecutionsApi {
         }
         else
         {
-            return new ResponseEntity<Execution>(e.getDTO(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Execution>(e.getDTO(), HttpStatus.UNPROCESSABLE_ENTITY);
 
         }
 
