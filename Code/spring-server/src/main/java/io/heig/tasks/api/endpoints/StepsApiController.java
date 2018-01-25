@@ -50,17 +50,27 @@ public class StepsApiController implements StepsApi{
 
         ExecutionEntity executionEntity = ExecutionRepository.findOne(body.getExecutionId());
 
-        ArrayList<StepEntity> steps;
-        if (executionEntity.getSteps() == null) {
-            steps = new ArrayList<>();
-        } else {
-            steps = executionEntity.getSteps();
+        if(executionEntity != null)
+        {
+            ArrayList<StepEntity> steps;
+            if (executionEntity.getSteps() == null)
+            {
+                steps = new ArrayList<>();
+            }
+            else
+            {
+                steps = executionEntity.getSteps();
+            }
+
+            steps.add(s);
+            executionEntity.setSteps(steps);
+
+            ExecutionRepository.save(executionEntity);
+            return new ResponseEntity<Step>(s.getDTO(), HttpStatus.CREATED);
         }
-
-        steps.add(s);
-        executionEntity.setSteps(steps);
-
-        ExecutionRepository.save(executionEntity);
-        return new ResponseEntity<Step>(s.getDTO(), HttpStatus.CREATED);
+        else
+        {
+            return new ResponseEntity<Step>(s.getDTO(), HttpStatus.NOT_FOUND);
+        }
     }
 }
