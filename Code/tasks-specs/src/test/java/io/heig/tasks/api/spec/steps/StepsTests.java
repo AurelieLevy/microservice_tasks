@@ -1,6 +1,7 @@
 package io.heig.tasks.api.spec.steps;
 
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.heig.tasks.ApiException;
 import io.heig.tasks.ApiResponse;
@@ -35,6 +36,8 @@ public class StepsTests {
     private ApiException lastApiException;
     private boolean lastApiCallThrewException;
     private int lastStatusCode;
+    private String idStep;
+
 
 
     public StepsTests(Environment environment){
@@ -92,6 +95,31 @@ public class StepsTests {
                 lastStatusCode = lastApiException.getCode();
             }
         }
+    }
+
+    @When("^I GET to the /steps/STEP_ID endpoint$")
+    public void i_GET_to_the_steps_STEP_ID_endpoint() throws Throwable {
+        try {
+            lastApiResponse= api.getStepByIdWithHttpInfo(idStep);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
+    @Given("^I have a step id$")
+    public void i_have_a_execution_id() throws Throwable {
+        idStep="5a6a53ad6ec5e02c520f0aeb";
+    }
+
+    @Then("^I receive for step a (\\d+) status code$")
+    public void i_receive_for_step_a_status_code(int status) throws Throwable {
+        assertEquals(status, lastStatusCode);
     }
 
 }

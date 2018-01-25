@@ -55,7 +55,6 @@ public class ExecutionTests
     public void i_have_a_valid_execution_payload() throws Throwable {
         newExecution = new NewExecution();
         newExecution.setName("Execution 1");
-        newExecution.setStartingDate(System.currentTimeMillis());
     }
 
     @Given("^I have an JSON execution payload with incorrect parameters$")
@@ -112,12 +111,17 @@ public class ExecutionTests
 
     @Given("^I have a execution id$")
     public void i_have_a_execution_id() throws Throwable {
-        idExecution="5a33ccdf45bca50aa881753f";
+        idExecution="5a6a52e96ec5e02c520f0aea";
     }
 
     @Given("^I have an incorrect execution id$")
     public void i_have_an_incorrect_execution_id() throws Throwable {
         idExecution="9999999";
+    }
+
+    @Then("^I receive for execution a (\\d+) status code$")
+    public void i_receive_a_status_code(int status) throws Throwable {
+        assertEquals(status, lastStatusCode);
     }
 
 
