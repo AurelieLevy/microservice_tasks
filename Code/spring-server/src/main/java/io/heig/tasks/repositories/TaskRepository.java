@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TaskRepository extends MongoRepository<TaskEntity, String>{
-
+    TaskEntity findOneByTaskId(String taskId);
 }
