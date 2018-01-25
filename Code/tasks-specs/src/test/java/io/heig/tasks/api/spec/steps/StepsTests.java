@@ -113,7 +113,7 @@ public class StepsTests {
     }
 
     @Given("^I have a step id$")
-    public void i_have_a_execution_id() throws Throwable {
+    public void i_have_a_step_id() throws Throwable {
         idStep="5a6a53ad6ec5e02c520f0aeb";
     }
 
