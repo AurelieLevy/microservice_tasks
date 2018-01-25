@@ -60,17 +60,29 @@ public class ExecutionApiController implements ExecutionsApi {
         e = ExecutionRepository.insert(e);
         TaskEntity taskEntity =  taskRepository.findOneByTaskId(body.getTaskId());
 
-        ArrayList<ExecutionEntity> executions;
-        if(taskEntity.getExecutions() == null) {
-            executions = new ArrayList<>();
-        } else {
-            executions = taskEntity.getExecutions();
+        if(taskEntity != null)
+        {
+            ArrayList<ExecutionEntity> executions;
+            if (taskEntity.getExecutions() == null)
+            {
+                executions = new ArrayList<>();
+            }
+            else
+            {
+                executions = taskEntity.getExecutions();
+            }
+
+            executions.add(e);
+            taskEntity.setExecutions(executions);
+
+            taskRepository.save(taskEntity);
+            return new ResponseEntity<Execution>(e.getDTO(), HttpStatus.CREATED);
+        }
+        else
+        {
+            return new ResponseEntity<Execution>(e.getDTO(), HttpStatus.NOT_FOUND);
+
         }
 
-        executions.add(e);
-        taskEntity.setExecutions(executions);
-
-        taskRepository.save(taskEntity);
-        return new ResponseEntity<Execution>(e.getDTO(), HttpStatus.CREATED);
     }
 }
