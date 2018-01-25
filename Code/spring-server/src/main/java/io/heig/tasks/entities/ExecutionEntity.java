@@ -70,16 +70,19 @@ public class ExecutionEntity implements Serializable {
 
     public Execution getDTO(){
         Execution e = new Execution();
-        e.setId(getId());
+        e.setExecutionId(getId());
         e.setName(getName());
         e.setCreationDate(getCreationDate());
-        ArrayList<Step> steps = new ArrayList<>();
-        if(getSteps() != null) {
+        ArrayList<Step> steps=  new ArrayList<>();
+        if(getSteps()!=null)
+        {
             e.setSteps(getSteps()
                     .stream()
                     .map(StepEntity::getDTO)
                     .collect(Collectors.toList()));
-        } else {
+        }
+        else
+        {
             e.setSteps(steps);
         }
         return e;

@@ -197,14 +197,10 @@ definitions:
         type: string
       description:
         type: string
-      task_id:
-        type: string
     required: [name]
   Task:
     type: object
     properties:
-      id:
-        type: string
       task_id:
         type: string
       self:
@@ -225,13 +221,16 @@ definitions:
     properties:
       task_id:
         type: string
+      starting_date:
+        type: integer
+        format: int64
       name:
         type: string
     required: [task_id]
   Execution:
     type: object
     properties:
-      id:
+      execution_id:
         type: string
       self:
         type: string
@@ -242,12 +241,14 @@ definitions:
         format: int64
       steps:
         type: array
+
         items:
           $ref: '#/definitions/Step'
-  NewStep:
+  StepAbstract:
     type: object
+    discriminator: stepType
     properties:
-      execution_id:
+      stepType:
         type: string
       name:
         type: string
@@ -260,18 +261,25 @@ definitions:
           - Error
           - Log
           - Success
+    required:
+      - stepType
+  NewStep:
+    type: object
+    allOf:
+    - $ref: '#/definitions/StepAbstract'
+    - type: object
+      properties:
+        execution_id:
+          type: string
     required: [execution_id, name, status]
   Step:
     type: object
-    properties:
-      id:
-        type: string
-      creationDate:
-        type: integer
-        format: int64
-      name:
-        type: string
-      context:
-        type: string
-      status:
-        type: string
+    allOf:
+    - $ref: '#/definitions/StepAbstract'
+    - type: object
+      properties:
+        step_id:
+          type: string
+        creationDate:
+          type: integer
+          format: int64

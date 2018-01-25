@@ -1,10 +1,9 @@
 package io.heig.tasks.entities;
 
-import io.heig.tasks.api.model.NewStep;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 import io.heig.tasks.api.model.Step;
-import io.heig.tasks.api.model.NewStep.StatusEnum;
+import io.heig.tasks.api.model.StepAbstract.StatusEnum;
 
 import java.io.Serializable;
 
@@ -60,8 +59,8 @@ public class StepEntity implements Serializable {
         s.setName(getName());
         s.setContext(getContext());
         s.setCreationDate(getCreationDate());
-        s.setStatus(getStatus().toString());
-        s.setId(getId());
+        s.setStatus(getStatus());
+        s.setStepId(getId());
         return s;
     }
 }
