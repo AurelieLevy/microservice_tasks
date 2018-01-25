@@ -169,8 +169,8 @@ paths:
       operationId: getStepById
       parameters:
         - in: "path"
-          name: step_id
-          description: Task ID
+          name: "step_id"
+          description: "Step ID"
           required: true
           type: string
       produces:

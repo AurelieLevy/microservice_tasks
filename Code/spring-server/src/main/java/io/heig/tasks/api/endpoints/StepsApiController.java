@@ -26,7 +26,7 @@ public class StepsApiController implements StepsApi{
     private ExecutionRepository ExecutionRepository;
 
     @Override
-    public ResponseEntity<Step> getStepById(@ApiParam(value = "Task ID", required = true) @PathVariable("stepId") String stepId) {
+    public ResponseEntity<Step> getStepById(@PathVariable("step_id") String stepId) {
        if(stepId == null){
            return new ResponseEntity<Step>(HttpStatus.NOT_FOUND);
        }
