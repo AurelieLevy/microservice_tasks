@@ -59,6 +59,7 @@ public class TasksApiController implements TasksApi {
         TaskEntity t = new TaskEntity();
         t.setName(body.getName());
         t.setDescription(body.getDescription());
+        t.setTaskId(body.getTaskId());
         t.setCreationDate(System.currentTimeMillis());
         t = taskRepository.insert(t);
         return new ResponseEntity<Task>(t.getDTO(), HttpStatus.CREATED);

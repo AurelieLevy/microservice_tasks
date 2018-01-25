@@ -51,13 +51,10 @@ public class StepsApiController implements StepsApi{
         ExecutionEntity executionEntity = ExecutionRepository.findOne(body.getExecutionId());
 
         ArrayList<StepEntity> steps;
-        if( executionEntity.getSteps()==null)
-        {
+        if (executionEntity.getSteps() == null) {
             steps = new ArrayList<>();
-        }
-        else
-        {
-            steps =executionEntity.getSteps();
+        } else {
+            steps = executionEntity.getSteps();
         }
 
         steps.add(s);

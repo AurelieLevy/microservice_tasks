@@ -15,6 +15,7 @@ public class TaskEntity implements Serializable {
     @Id
     private String id;
 
+    private String taskId;
     private long creationDate;
     private String name;
     private String description;
@@ -70,9 +71,18 @@ public class TaskEntity implements Serializable {
         this.executions = executions;
     }
 
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
     public Task getDTO(){
         Task t = new Task();
-        t.setTaskId(getId());
+        t.setId(getId());
+        t.setTaskId(getTaskId());
         t.setDescription(getDescription());
         t.setName(getName());
         t.setCreationDate(getCreationDate());
