@@ -1,9 +1,12 @@
 package io.heig.tasks.api.endpoints;
 
 import io.heig.tasks.api.TasksApi;
+import io.heig.tasks.api.model.Execution;
 import io.heig.tasks.api.model.NewTask;
 import io.heig.tasks.api.model.Task;
+import io.heig.tasks.entities.ExecutionEntity;
 import io.heig.tasks.entities.TaskEntity;
+import io.heig.tasks.repositories.ExecutionRepository;
 import io.heig.tasks.repositories.TaskRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ public class TasksApiController implements TasksApi {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private ExecutionRepository executionRepository;
+
     @Override
     public ResponseEntity<Task> getTaskById(@PathVariable("task_id")String taskId) {
 
@@ -37,6 +43,15 @@ public class TasksApiController implements TasksApi {
             return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
         }
         else{
+            ArrayList<ExecutionEntity> executions = new ArrayList<>();
+            if(taskEntity.getExecutions() != null) {
+                for(ExecutionEntity e : taskEntity.getExecutions()) {
+                    ExecutionEntity ee = executionRepository.findOne(e.getId());
+                    executions.add(ee);
+                }
+            }
+
+            taskEntity.setExecutions(executions);
             return new ResponseEntity<Task>(taskEntity.getDTO(), HttpStatus.OK);
         }
 
@@ -48,6 +63,15 @@ public class TasksApiController implements TasksApi {
         ArrayList<Task> tasks = new ArrayList<>();
 
         for(TaskEntity t : taskRepository.findAll()){
+            ArrayList<ExecutionEntity> executions = new ArrayList<>();
+            if(t.getExecutions() != null) {
+                for(ExecutionEntity e : t.getExecutions()) {
+                    ExecutionEntity ee = executionRepository.findOne(e.getId());
+                    executions.add(ee);
+                }
+            }
+
+            t.setExecutions(executions);
             tasks.add(t.getDTO());
         }
 
