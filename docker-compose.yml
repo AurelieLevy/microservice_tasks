@@ -8,3 +8,15 @@ services:
           - MONGO_LOG_DIR=/dev/null
         ports:
             - 27017:27017
+    server:
+        image: lozzikit/tasks
+        links:
+        - mongodb:mongodb
+        container_name: amt_tasks_server_api
+        environment:
+        - SPRING_DATA_MONGODB_HOST=mongo
+        - SPRING_DATA_MONGODB_PORT=27017
+        expose:
+            - 8080
+        ports:
+            - 8080:8080
