@@ -12,7 +12,8 @@ import java.util.stream.Collectors;
 @Document(collection = "tasks")
 public class TaskEntity implements Serializable {
 
-    private static final String RELATIVE_PATH = "/tasks/";
+    private static final String RELATIVE_PATH = "/api/tasks/";
+    
     @Id
     private String id;
 

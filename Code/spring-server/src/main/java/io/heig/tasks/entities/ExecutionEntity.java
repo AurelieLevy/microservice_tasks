@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Entity
 public class ExecutionEntity implements Serializable {
 
-    private final static String RELATIVE_PATH = "/executions/";
+    private final static String RELATIVE_PATH = "/api/executions/";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

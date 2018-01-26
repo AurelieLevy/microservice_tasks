@@ -1,7 +1,6 @@
 package io.heig.tasks.api.endpoints;
 
 import io.heig.tasks.api.TasksApi;
-import io.heig.tasks.api.model.Execution;
 import io.heig.tasks.api.model.NewTask;
 import io.heig.tasks.api.model.Task;
 import io.heig.tasks.entities.ExecutionEntity;
