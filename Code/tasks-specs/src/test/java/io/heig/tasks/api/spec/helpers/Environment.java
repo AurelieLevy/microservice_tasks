@@ -1,5 +1,6 @@
 package io.heig.tasks.api.spec.helpers;
 
+import io.heig.tasks.api.ExecutionApi;
 import io.heig.tasks.api.StepApi;
 import io.heig.tasks.api.TaskApi;
 
@@ -12,12 +13,14 @@ import java.util.Properties;
 public class Environment {
 
     private TaskApi taskApi = new TaskApi();
+    private ExecutionApi executionApi = new ExecutionApi();
+    private StepApi stepApi = new StepApi();
+
 
     public StepApi getStepApi() {
         return stepApi;
     }
 
-    private StepApi stepApi = new StepApi();
 
     public Environment() throws IOException {
         Properties properties = new Properties();
@@ -25,6 +28,7 @@ public class Environment {
         String url = properties.getProperty("io.heig.tasks.server.url");
         taskApi.getApiClient().setBasePath(url);
         stepApi.getApiClient().setBasePath(url);
+        executionApi.getApiClient().setBasePath(url);
 
     }
 
@@ -32,5 +36,9 @@ public class Environment {
         return taskApi;
     }
 
+    public ExecutionApi getExecutionApi()
+    {
+        return executionApi;
+    }
 
 }

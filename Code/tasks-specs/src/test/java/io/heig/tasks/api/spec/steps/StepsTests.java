@@ -42,7 +42,7 @@ public class StepsTests {
 
     public StepsTests(Environment environment){
         this.environment = environment;
-        this.api = environment.getStepApi();
+        this.api = new StepApi();
 
     }
 
@@ -56,6 +56,8 @@ public class StepsTests {
         newStep = new io.heig.tasks.api.dto.NewStep();
         newStep.setName("Step 1");
         newStep.setContext("Context of the step 1");
+        newStep.setExecutionId("5a6a47cb6ec5e01f7a9fecb8");
+        newStep.setStatus(NewStep.StatusEnum.RUNNING);
     }
 
 
@@ -65,10 +67,15 @@ public class StepsTests {
         newStep = new io.heig.tasks.api.dto.NewStep();
     }
 
-    @When("^I POST to the (/step) endpoint")
-    public void I_POST_to_the_step_endpoint(String endpoint) throws Throwable{
+    @Given("^I have an invalid step type payload \\(not JSON\\)$")
+    public void i_have_an_invalid_step_type_payload_not_JSON() throws Throwable {
+        invalidStep = new Object();
+    }
+
+    @When("^I POST to the (/steps) endpoint")
+    public void I_POST_to_the_steps_endpoint(String endpoint) throws Throwable{
         if(invalidStep != null){
-            HttpPost request = new HttpPost(API_URL + endpoint + "s");
+            HttpPost request = new HttpPost(API_URL + endpoint);
             StringEntity value = new StringEntity("My string that is not good");
             request.addHeader("content-type", "text/plain");
             request.setEntity(value);
@@ -97,8 +104,21 @@ public class StepsTests {
         }
     }
 
-    @When("^I GET to the /steps/STEP_ID endpoint$")
-    public void i_GET_to_the_steps_STEP_ID_endpoint() throws Throwable {
+
+    @Given("^I have a step id$")
+    public void i_have_a_step_id() throws Throwable {
+        idStep="5a6a53ad6ec5e02c520f0aeb";
+    }
+
+
+    @Given("^I have an incorrect step id$")
+    public void i_have_an_incorrect_step_id() throws Throwable {
+        idStep="9999999";
+    }
+
+
+    @When("^I GET to the /step/STEP_ID endpoint$")
+    public void i_GET_to_the_step_STEP_ID_endpoint() throws Throwable {
         try {
             lastApiResponse= api.getStepByIdWithHttpInfo(idStep);
             lastApiCallThrewException = false;
@@ -112,10 +132,6 @@ public class StepsTests {
         }
     }
 
-    @Given("^I have a step id$")
-    public void i_have_a_step_id() throws Throwable {
-        idStep="5a6a53ad6ec5e02c520f0aeb";
-    }
 
     @Then("^I receive for step a (\\d+) status code$")
     public void i_receive_for_step_a_status_code(int status) throws Throwable {

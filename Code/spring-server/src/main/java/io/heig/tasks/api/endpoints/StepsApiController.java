@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 @Controller
@@ -40,15 +41,15 @@ public class StepsApiController implements StepsApi{
     }
 
     @Override
-    public ResponseEntity<Step> postStep(@ApiParam(value = "The step details", required = true) @RequestBody NewStep body) {
+    public ResponseEntity<Step> postStep(@ApiParam(value = "The step details", required = true) @RequestBody @Valid NewStep body) {
         StepEntity s = new StepEntity();
         s.setStatus(body.getStatus());
         s.setCreationDate(System.currentTimeMillis());
         s.setContext(body.getContext());
         s.setName(body.getName());
         s = stepRepository.insert(s);
-
         ExecutionEntity executionEntity;
+
         if(executionRepository != null)
         {
             executionEntity = executionRepository.findOne(body.getExecutionId());
@@ -57,6 +58,7 @@ public class StepsApiController implements StepsApi{
         {
             return new ResponseEntity<Step>(s.getDTO(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         if(executionEntity != null)
         {
             ArrayList<StepEntity> steps;
@@ -72,7 +74,7 @@ public class StepsApiController implements StepsApi{
             steps.add(s);
             executionEntity.setSteps(steps);
 
-            ExecutionRepository.save(executionEntity);
+            executionRepository.save(executionEntity);
             return new ResponseEntity<Step>(s.getDTO(), HttpStatus.CREATED);
         }
         else
