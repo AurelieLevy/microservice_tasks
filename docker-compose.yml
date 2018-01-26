@@ -1,8 +1,8 @@
 version: '2'
 services:
-    mongodb:
+    mongo:
         image: mongo:latest
-        container_name: "mongodb"
+        container_name: "mongo"
         environment:
           - MONGO_DATA_DIR=/data/db
           - MONGO_LOG_DIR=/dev/null
@@ -11,7 +11,7 @@ services:
     server:
         image: lozzikit/tasks
         links:
-        - mongodb:mongodb
+        - mongo:mongo
         container_name: amt_tasks_server_api
         environment:
         - SPRING_DATA_MONGODB_HOST=mongo
