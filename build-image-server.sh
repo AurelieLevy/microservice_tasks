@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "---- Building tasks-api-server -----"
-cd swagger/spring-server/
+cd code/spring-server/
 mvn clean install
 
 echo "---- Copying  tasks-api-server.jar ----"
