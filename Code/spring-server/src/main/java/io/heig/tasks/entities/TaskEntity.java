@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Document(collection = "tasks")
 public class TaskEntity implements Serializable {
 
+    private static final String RELATIVE_PATH = "/tasks/";
     @Id
     private String id;
 
@@ -86,6 +87,7 @@ public class TaskEntity implements Serializable {
         t.setDescription(getDescription());
         t.setName(getName());
         t.setCreationDate(getCreationDate());
+        t.setSelf(RELATIVE_PATH + getId());
         ArrayList<Execution> executions=  new ArrayList<>();
         if(getExecutions()!=null)
         {
