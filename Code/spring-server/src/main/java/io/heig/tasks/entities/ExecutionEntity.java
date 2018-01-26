@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 @Entity
 public class ExecutionEntity implements Serializable {
 
+    private final static String RELATIVE_PATH = "/executions/";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
@@ -73,6 +75,7 @@ public class ExecutionEntity implements Serializable {
         e.setId(getId());
         e.setName(getName());
         e.setCreationDate(getCreationDate());
+        e.setSelf(RELATIVE_PATH + getId());
         ArrayList<Step> steps = new ArrayList<>();
         if(getSteps() != null) {
             e.setSteps(getSteps()

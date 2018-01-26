@@ -1,15 +1,16 @@
 package io.heig.tasks.entities;
 
-import io.heig.tasks.api.model.NewStep;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.annotation.Id;
-import io.heig.tasks.api.model.Step;
 import io.heig.tasks.api.model.NewStep.StatusEnum;
+import io.heig.tasks.api.model.Step;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
 @Document(collection = "steps")
 public class StepEntity implements Serializable {
+
+
 
     @Id
     private String id;
