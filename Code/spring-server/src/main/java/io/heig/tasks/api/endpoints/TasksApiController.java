@@ -25,7 +25,7 @@ import java.util.List;
 public class TasksApiController implements TasksApi {
 
     @Autowired
-    private TaskRepository taskRepository;
+    public TaskRepository taskRepository;
 
     @Autowired
     private ExecutionRepository executionRepository;

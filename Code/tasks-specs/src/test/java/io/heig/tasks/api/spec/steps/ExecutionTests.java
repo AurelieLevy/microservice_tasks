@@ -39,14 +39,15 @@ public class ExecutionTests
 
 
 
+
     public ExecutionTests(Environment environment)
     {
         this.environment = environment;
-        this.api= new ExecutionApi();
+        this.api= environment.getExecutionApi();
     }
 
-    @Given("^there is a Execution server$")
-    public void there_is_a_Execution_server() throws Throwable {
+    @Given("^there is a Tasks server with an existing Task and an existing Exec$")
+    public void there_is_a_Tasks_server_with_an_existing_Task_and_an_existing_Exec() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         assertNotNull(api);;
     }
@@ -55,7 +56,14 @@ public class ExecutionTests
     public void i_have_a_valid_execution_payload() throws Throwable {
         newExecution = new NewExecution();
         newExecution.setName("Execution 1");
+        newExecution.setTaskId("cucumber2");
     }
+
+    @Given("^I have an invalid execution type payload \\(not JSON\\)$")
+    public void i_have_an_invalid_execution_type_payload_not_JSON() throws Throwable {
+        invalidExecution = new Object();
+    }
+
 
     @Given("^I have an JSON execution payload with incorrect parameters$")
     public void i_have_an_JSON_execution_payload_with_incorrect_parameters() throws Throwable {

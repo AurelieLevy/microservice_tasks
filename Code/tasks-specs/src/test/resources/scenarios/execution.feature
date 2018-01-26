@@ -14,12 +14,12 @@ Feature: features for executions
     Then I receive for execution a 404 status code
 
   Scenario: create a valid execution
-    Given I have a valid task payload
+    Given I have a valid execution payload
     When I POST to the /execution endpoint
     Then I receive for execution a 201 status code
 
   Scenario: failed to create a execution
-    Given I have an invalid  type payload (not JSON)
+    Given I have an invalid execution type payload (not JSON)
     When I POST to the /execution endpoint
     Then I receive for execution a 415 status code
 
