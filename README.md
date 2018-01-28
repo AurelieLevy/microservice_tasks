@@ -3,6 +3,8 @@
 With this microservice, you will be able to monitor yours tasks, theirs executions and steps.
 This document will explain to you how to install and use it.
 
+Note that if you use docker toolbox, some modifications on the path must be made. the `localhost` in this document must be replaced by your docker machine IP address (default is `192.168.99.100`).
+
 ## Build and run
 To run the `database` and the `server`, you will need docker. If you don't already have it, you can found some informations [here](https://www.docker.com/#/get_started)
 
@@ -12,12 +14,23 @@ $ docker-compose up --build
 ```
 if it's the first time, or without the ``` --build ``` if not.
 
+Note that the `docker-compose up` will populate the mongo database with some data for the tests. If you want only an empty database, you can use the following command:
+```
+$ docker-compose up --build mongo server panel
+```
+
 ## Tests
-To run the tests and verify that everything is ok, you will need to use the script **test-image.sh** with the following command:
+To run the tests and verify that everything is ok, you only need to run the test project with maven using the following command from the Code/tasks-specs/ folder:
 
 ``` 
-$ sh test-image.sh
+$ mvn install
 ```
+
+If you use docker toolbox, you have to replace the server address in the pom.xml file by replacing the localhost with your docker machine IP address
+```
+<io.heig.tasks.server.url>http://localhost:8080/api/</io.heig.tasks.server.url>
+```
+
 You will see the results just after the run.
 
 ## Admin Panel
