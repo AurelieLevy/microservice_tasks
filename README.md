@@ -27,7 +27,11 @@ $ sh test-image.sh
 ```
 You will see the results just after the run.
 
-## Web Interface
+## Admin Panel
 
-## Production
+An admin panel is available at the address `localhost:3000` 
+
+This panel shows the status of your tasks and the details of the executions of each tasks when you click on `details` 
+
+To have more details on this panel please see the readme in the folder `Code/AdminPanel`
 
