@@ -23,11 +23,12 @@ import static org.junit.Assert.assertNotNull;
  */
 public class StepsTests {
 
+
     private Environment environment;
     private StepApi api;
     private CloseableHttpClient httpClient = HttpClients.createDefault();
 
-    private final String API_URL = "http://localhost:8080/api";
+    private final String API_URL;
     private Step step;
     private NewStep newStep;
     private Object invalidStep;
@@ -43,7 +44,7 @@ public class StepsTests {
     public StepsTests(Environment environment){
         this.environment = environment;
         this.api = new StepApi();
-
+        API_URL = api.getApiClient().getBasePath();
     }
 
     @Given("^there is a Tasks server with an existing Task and an existing Exec and a step$")

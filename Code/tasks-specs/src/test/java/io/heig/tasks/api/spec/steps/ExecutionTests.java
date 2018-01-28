@@ -22,7 +22,7 @@ public class ExecutionTests
 
     private Environment environment;
     private ExecutionApi api;
-    private final String API_URL = "http://localhost:8080/api";
+    private final String API_URL;
 
 
     private CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -42,6 +42,7 @@ public class ExecutionTests
     {
         this.environment = environment;
         this.api= environment.getExecutionApi();
+        API_URL = api.getApiClient().getBasePath();
     }
 
     @Given("^there is a Tasks server with an existing Task and an existing Exec$")

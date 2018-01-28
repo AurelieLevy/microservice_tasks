@@ -33,7 +33,7 @@ public class CreationTasksTests {
 
     private CloseableHttpClient httpClient = HttpClients.createDefault();
 
-    private final String API_URL = "http://localhost:8080/api";
+    private final String API_URL;
     private Task task;
     private NewTask newTask;
     private String idTask;
@@ -50,6 +50,7 @@ public class CreationTasksTests {
     {
         this.environment = environment;
         this.api= environment.getTaskApi();
+        API_URL = api.getApiClient().getBasePath();
     }
 
     @Given("^there is a Tasks server$")
