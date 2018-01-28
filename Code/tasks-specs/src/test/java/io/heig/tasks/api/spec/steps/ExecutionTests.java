@@ -1,13 +1,11 @@
 package io.heig.tasks.api.spec.steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.heig.tasks.ApiException;
 import io.heig.tasks.ApiResponse;
 import io.heig.tasks.api.ExecutionApi;
-import io.heig.tasks.api.TaskApi;
 import io.heig.tasks.api.dto.NewExecution;
 import io.heig.tasks.api.spec.helpers.Environment;
 import org.apache.http.HttpResponse;
@@ -56,7 +54,7 @@ public class ExecutionTests
     public void i_have_a_valid_execution_payload() throws Throwable {
         newExecution = new NewExecution();
         newExecution.setName("Execution 1");
-        newExecution.setTaskId("cucumber2");
+        newExecution.setTaskId("Test");
     }
 
     @Given("^I have an invalid execution type payload \\(not JSON\\)$")
@@ -119,7 +117,7 @@ public class ExecutionTests
 
     @Given("^I have a execution id$")
     public void i_have_a_execution_id() throws Throwable {
-        idExecution="5a6a52e96ec5e02c520f0aea";
+        idExecution="5a6da54ea7b11b0001fe22cc";
     }
 
     @Given("^I have an incorrect execution id$")

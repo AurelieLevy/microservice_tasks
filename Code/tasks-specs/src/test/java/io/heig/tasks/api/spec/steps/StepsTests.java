@@ -56,7 +56,7 @@ public class StepsTests {
         newStep = new io.heig.tasks.api.dto.NewStep();
         newStep.setName("Step 1");
         newStep.setContext("Context of the step 1");
-        newStep.setExecutionId("5a6a47cb6ec5e01f7a9fecb8");
+        newStep.setExecutionId("5a6da54ea7b11b0001fe22cc");
         newStep.setStatus(NewStep.StatusEnum.RUNNING);
     }
 
@@ -107,7 +107,7 @@ public class StepsTests {
 
     @Given("^I have a step id$")
     public void i_have_a_step_id() throws Throwable {
-        idStep="5a6a53ad6ec5e02c520f0aeb";
+        idStep="5a6da57ea7b11b0001fe22cd";
     }
 
 

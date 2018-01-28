@@ -50,8 +50,6 @@ public class CreationTasksTests {
     {
         this.environment = environment;
         this.api= environment.getTaskApi();
-
-        
     }
 
     @Given("^there is a Tasks server$")
@@ -72,8 +70,6 @@ public class CreationTasksTests {
             lastApiException = e;
             lastStatusCode = lastApiException.getCode();
         }
-
-
     }
 
     @Then("^I receive a (\\d+) status code$")
@@ -132,7 +128,7 @@ public class CreationTasksTests {
 
     @Given("^I have a task id$")
     public void i_have_a_task_id() throws Throwable {
-        idTask="5a33d9f9e3960d5565ef0044";
+        idTask="5a6da523a7b11b0001fe22cb";
     }
 
     @Given("^I have an incorrect task id$")

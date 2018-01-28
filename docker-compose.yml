@@ -1,13 +1,21 @@
 version: '2'
 services:
     mongo:
-        build: images/mongo
+        image: mongo:latest 
         container_name: "mongo"
         environment:
           - MONGO_DATA_DIR=/data/db
           - MONGO_LOG_DIR=/dev/null
         ports:
             - 27017:27017
+    mongo-seed:
+        build: images/mongo
+        links:
+        - mongo
+        command: >
+            bash -c "mongoimport --host mongo --db tasksDb --collection tasks  --file /data/tasks.json
+            && mongoimport --host mongo --db tasksDb --collection executionEntity  --file /data/executions.json
+            && mongoimport --host mongo --db tasksDb --collection steps  --file /data/steps.json"
     server:
         build: images/tasks 
         links:
