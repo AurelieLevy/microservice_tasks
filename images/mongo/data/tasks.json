@@ -1,0 +1,24 @@
+{
+        "_id": {
+                "$oid": "5a6da523a7b11b0001fe22cb"
+        },
+        "_class": "io.heig.tasks.entities.TaskEntity",
+        "taskId": "Test",
+        "creationDate": {
+                "$numberLong": "1517135139802"
+        },
+        "name": "Test",
+        "description": "Task for tests",
+        "executions": [
+                {
+                        "_id": {
+                                "$oid": "5a6da54ea7b11b0001fe22cc"
+                        },
+                        "name": "ExecutionTest",
+                        "creationDate": {
+                                "$numberLong": "1517135182674"
+                        },
+                        "steps": []
+                }
+        ]
+}

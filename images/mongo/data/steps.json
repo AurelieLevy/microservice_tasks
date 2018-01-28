@@ -1,0 +1,12 @@
+{
+        "_id": {
+                "$oid": "5a6da57ea7b11b0001fe22cd"
+        },
+        "_class": "io.heig.tasks.entities.StepEntity",
+        "name": "Test1",
+        "context": "TestContext",
+        "creationDate": {
+                "$numberLong": "1517135230027"
+        },
+        "status": "RUNNING"
+}
