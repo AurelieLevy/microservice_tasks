@@ -4,14 +4,7 @@ With this microservice, you will be able to monitor yours tasks, theirs executio
 This document will explain to you how to install and use it.
 
 ## Build and run
-The first step is to run the **build-image-server.sh** file. You will need to use a command line:
-```
-$ sh build-image-server.sh
-```
-
-Then, to run the `database` and the `server`, you will need docker. If you don't already have it, you can found some informations here:
-
-<center> <a href="https://www.docker.com/#/get_started"> https://www.docker.com/#/get_started </a> </center>
+To run the `database` and the `server`, you will need docker. If you don't already have it, you can found some informations [here](https://www.docker.com/#/get_started)
 
 With your docker, you will need to do a
 ```
