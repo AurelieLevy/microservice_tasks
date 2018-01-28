@@ -1,0 +1,17 @@
+/node_modules
+/uploads
+/bin
+/config/client.js
+/.vscode
+/.sass-cache
+
+.DS_Store
+
+*.hot-update.json
+*.hot-update.js
+
+.reports
+.yarn-cache.tgz
+
+selenium-debug.log
+yarn-error.log
